@@ -14,7 +14,7 @@ def health_check(request):
 
 
 class ResourceViewSet(viewsets.ModelViewSet):
-  queryset = Resource.objects.all()
+  queryset = Resource.objects.all().order_by('id')
   serializer_class = ResourceSerializer
 
   filter_backends = [
@@ -22,7 +22,7 @@ class ResourceViewSet(viewsets.ModelViewSet):
       filters.SearchFilter,
       filters.OrderingFilter,
   ]
-  filterset_fields = ['resource_type'] 
+  filterset_fields = ['resource_type']
   search_fields = [
       'name',
       'description',
@@ -31,7 +31,9 @@ class ResourceViewSet(viewsets.ModelViewSet):
 
 
 class BookingViewSet(viewsets.ModelViewSet):
-  queryset = Booking.objects.select_related('resource', 'user').all()
+  queryset = (
+      Booking.objects.select_related('resource', 'user').all().order_by('id')
+  )
   serializer_class = BookingSerializer
 
   # Налаштування фільтрації, пошуку та сортування для Бронювань
