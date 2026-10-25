@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 # Сторонны быблыотеки + додаток
     'rest_framework', 
+    'django_filters',
     'core',
 ]
 
@@ -131,6 +132,16 @@ MAILERS = {
 }
 
 REST_FRAMEWORK = {
-    'DEFAULT_EXCEPTION_HANDLER': 'core.exceptions.custom_exception_handler',
-    
+    'DEFAULT_EXCEPTION_HANDLER': (
+        'core.exceptions.custom_exception_handler'
+    ),
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter',
+    ],
+    'DEFAULT_PAGINATION_CLASS': (
+        'rest_framework.pagination.PageNumberPagination'
+    ),
+    'PAGE_SIZE': 5,  # Кількість елементів на одній сторінці API
 }
