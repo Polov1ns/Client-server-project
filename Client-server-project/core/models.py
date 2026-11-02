@@ -28,7 +28,7 @@ class Resource(models.Model):
         return f'{self.name} ({self.resource_type})'
 
 
-# Сутність Бронювання
+# Сутність Бронювання 
 class Booking(models.Model):
     class Status(models.TextChoices):
         PENDING = 'pending', 'Pending'
@@ -47,6 +47,11 @@ class Booking(models.Model):
         max_length=20, choices=Status.choices, default=Status.PENDING
     )
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['start_time', 'status'], name='idx_booking_time_status'),
+        ]
 
     def __str__(self):
         return (
