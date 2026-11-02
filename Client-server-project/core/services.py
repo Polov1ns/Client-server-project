@@ -16,7 +16,6 @@ class CoverImageService:
 
     @staticmethod
     def get_upload_directory():
-        # Зберігаємо у папку wwwroot/uploads
         return os.path.join(settings.BASE_DIR, 'wwwroot', 'uploads')
 
     @classmethod
@@ -48,11 +47,9 @@ class CoverImageService:
         except Exception:
             raise InvalidFileUploadException("Failed to save the file on the server.")
 
-        # Зберігаємо старе ім'я для подальшого видалення
         old_cover = resource.cover_image
         resource.cover_image = filename
         resource.save()
-
 
         if old_cover:
             cls.delete_file_by_name(old_cover)
